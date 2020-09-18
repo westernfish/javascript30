@@ -10,7 +10,7 @@
    a.**如何获得对应的keyCode,**  
    b.**键盘对应的 keydown,keypress,keyup事件**  
 2. **播放声音**  
-   a.**声音文件的播放（audio.paly()）**  
+   a.**声音文件的播放（audio.play()）**  
    b.**声音文件的停止（audio.pasue();Audio.currentTime = 0）**  
 3. **改变样式**  
    a.**通过keyCode获取对应的dom节点**  
