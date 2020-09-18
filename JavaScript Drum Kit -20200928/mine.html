@@ -58,35 +58,31 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
   <script>
-    allAudio = document.querySelectorAll('audio')
+    function targetKey (e) {
+      var keyCode = e.keyCode
+      var allAudio = document.querySelectorAll('audio')
+      var all = document.querySelectorAll('.key')
+      for (i = 0; i<all.length; i++) {
+        if (Number(all[i].attributes['data-key'].nodeValue) === keyCode) {
+          if(e.type === 'keydown') {
+            all[i].className = 'key playing'
+            allAudio[i].pause()                            //下次按下时清除上一次的音乐
+            allAudio[i].currentTime = 0
+            allAudio[i].play()  
+          return
+          } else if (e.type === 'keyup') {
+            all[i].className = 'key'
+          }
+        }
+      }
+    }
 
     window.addEventListener('keydown', function(e){
-      var keyCode = e.keyCode
-      var all = document.querySelectorAll('.key')
-      for (i = 0; i<all.length; i++) {
-        if (Number(all[i].attributes['data-key'].nodeValue) === keyCode) {
-          all[i].className = 'key playing'
-          allAudio[i].pause()                            //下次按下时清除上一次的音乐
-          allAudio[i].currentTime = 0
-          allAudio[i].play()
-           
-          return
-        }
-
-      }
+      targetKey (e)
     })
-
     window.addEventListener('keyup', function(e){
-      var keyCode = e.keyCode
-      var all = document.querySelectorAll('.key')
-      for (i = 0; i<all.length; i++) {
-        if (Number(all[i].attributes['data-key'].nodeValue) === keyCode) {
-          all[i].className = 'key'
-          return
-        }
-
-      }
-    })
+      targetKey (e)
+    }) 
   </script>
 
 </body>
