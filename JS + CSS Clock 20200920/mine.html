@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JS + CSS Clock</title>
+</head>
+<body>
+
+
+    <div class="clock">
+      <div class="clock-face">
+        <div class="hand hour-hand"></div>
+        <div class="hand min-hand"></div>
+        <div class="hand second-hand second">
+          <div class="hand second-hand shadow"></div>
+        </div>
+        <div class="center"></div>
+      </div>
+    </div>
+    <div><button onclick="int=window.clearInterval(int)">stop</button></div>
+
+  <style>
+    html {
+      background:#018DED url(./background.jpg);
+      background-size:cover;
+      font-family:'helvetica neue';
+      text-align: center;
+      font-size: 10px;
+    }
+
+    body {
+      font-size: 2rem;
+      display:flex;
+      flex:1;
+      min-height: 100vh;
+      align-items: center;
+    }
+
+    .clock {
+      width: 30rem;
+      height: 30rem;
+      border:20px solid white;
+      border-radius:50%;
+      margin:50px auto;
+      position: relative;
+      padding:2rem;
+      background-color: rgba(0, 0, 0, 0.3);
+      box-shadow:
+        0 0 0 4px rgba(0,0,0,0.1),
+        inset 0 0 0 3px #EFEFEF,
+        inset 0 0 10px black,
+        0 0 10px rgba(0,0,0,0.2);
+    }
+
+    .clock-face {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform: translateY(-3px); /* account for the height of the clock hands */
+    }
+    
+    .center {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      top:50%;
+      left:50%;
+      margin-top: -10px;
+      margin-left: -10px;
+      border-radius: 50%;
+      background-color: #c2c215;
+    }
+
+    .hand {
+      width:50%;
+      height:6px;
+      background:white;
+      position: absolute;
+      top:50%;
+
+    }
+    
+    .second {
+      transform: rotateZ(90deg)
+    }
+
+    .second-hand {
+      margin-top: -1.5px;
+      height: 3px;
+      box-sizing: border-box;
+      border-style: solid;
+      border-width: 1.5px 150px 1.5px 0;
+      border-color: transparent red transparent transparent;
+      background-color: transparent;
+      transform-origin: 100% 50%;
+      transition: all 0.5s;
+      
+    }
+    
+    .shadow {
+      margin-top: 2px;
+      height: 1px;
+      border-color: transparent #515151 transparent transparent;
+    }
+    .min-hand {
+      height: 6px;
+      width:45%;
+      box-sizing: border-box;
+      background-color: black;
+      border-radius: 4px;
+      margin-left: 5%;
+      margin-top: -3px;
+      transform-origin: 100% 50%;
+      transform: rotateZ(90deg);
+      transition: all 0.5s;
+    }
+
+    .hour-hand {
+      width: 35%;
+      height: 10px;
+      margin-left: 15%;
+      border-radius: 5px;
+      transform-origin: 100% 50%;
+      margin-top: -5px;
+      transform: rotateZ(90deg);
+      transition: all 0.5s;
+
+    }
+  </style>
+
+  <script>
+var s = new Date().getSeconds()                            //选择只获取一次时间的方式,时钟的运动则靠定时器里的数值累加完成
+var m = new Date().getMinutes()
+var h = new Date().getHours()
+  h < 12 ? h = h : h = h - 12
+var $ = document
+var a = 0
+  h = (h + m/60)*5 + 15                     // 初始化时针
+  s += 15                          // 时钟初始位置在0 但此时指针对应的位置则旋转了90度，按一次6度考虑，则增加15，初始化秒针和分针位置
+  m += 15
+  var $ = document
+  var int=self.setInterval("test()",1000)              // 计时器，每1000执行一次
+
+
+ function test(){
+  var $ = document
+
+  $.querySelector('.min-hand').style.transform = 'rotateZ('+ 6*m +'deg)' 
+  $.querySelector('.hour-hand').style.transform = 'rotateZ('+ 6*h +'deg)'
+  if(s !== 75) {                            
+    $.querySelector('.second-hand').style.transition = 'all .5s'
+    $.querySelector('.second-hand').style.transform = 'rotateZ('+ 6*s +'deg)'
+  } else {                   //秒针旋转1圈后，也就是s=75时，为了避免旋转角度一直增大，初始化秒针，所以需要先去除掉动画效果，避免显示错误
+    $.querySelector('.second-hand').style.transition = 'all 0s'
+    $.querySelector('.second-hand').style.transform = 'rotateZ(90deg)'
+  }
+  
+  if(s === 75) {           //初始化秒针 
+    s = 15
+    if (m === 75) {                      //初始化分钟，因为分钟不需要动画，所以此时清除
+      $.querySelector('.min-hand').style.transition = 'all 0s'
+      m = 15
+      a ++                       //a初始值为0，分钟每动一次，a加1，       
+      if (a === 6) {             // 每6分钟，时钟动一次，一次的角度为0.5 * 6 也就是3度，然后将a清0，重复
+        h += 0.5
+        a = 0
+        if(h === 75) {
+          $.querySelector('.hour-hand').style.transition = 'all 0s' // 初始化时针
+          h = 15
+        }
+      }
+    }
+    m++              //m++在 （s === 75）中，所以每60s，m += 1
+  }
+  s++
+ }
+
+ function test1(){
+   var date = new Date()
+   console.log(typeof date.getSeconds());
+   console.log(JSON.stringify(date));
+ }
+ 
+ 
+  </script>
+</body>
+</html>
