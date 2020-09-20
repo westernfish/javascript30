@@ -129,28 +129,26 @@
   </style>
 
   <script>
+var $ = document
+var a = 0
+var int
 var s = new Date().getSeconds()                            //选择只获取一次时间的方式,时钟的运动则靠定时器里的数值累加完成
 var m = new Date().getMinutes()
 var h = new Date().getHours()
-  h < 12 ? h = h : h = h - 12
-var $ = document
-var a = 0
+  h < 12 ? h = h : h = h - 12       // 判断小时是否大于12
   h = (h + m/60)*5 + 15                     // 初始化时针
   s += 15                          // 时钟初始位置在0 但此时指针对应的位置则旋转了90度，按一次6度考虑，则增加15，初始化秒针和分针位置
   m += 15
-  var $ = document
-  var int=self.setInterval("test()",1000)              // 计时器，每1000执行一次
+  int=self.setInterval("test()",1000)              // 计时器，每1000执行一次
 
 
  function test(){
-  var $ = document
-
   $.querySelector('.min-hand').style.transform = 'rotateZ('+ 6*m +'deg)' 
   $.querySelector('.hour-hand').style.transform = 'rotateZ('+ 6*h +'deg)'
   if(s !== 75) {                            
     $.querySelector('.second-hand').style.transition = 'all .5s'
     $.querySelector('.second-hand').style.transform = 'rotateZ('+ 6*s +'deg)'
-  } else {                   //秒针旋转1圈后，也就是s=75时，为了避免旋转角度一直增大，初始化秒针，所以需要先去除掉动画效果，避免显示错误
+  } else {                   //秒针旋转1圈后，也就是s=75时，为了避免旋转角度一直增大，初始化秒针，所以需要先去除掉动画效果，跳针
     $.querySelector('.second-hand').style.transition = 'all 0s'
     $.querySelector('.second-hand').style.transform = 'rotateZ(90deg)'
   }
@@ -175,12 +173,7 @@ var a = 0
   s++
  }
 
- function test1(){
-   var date = new Date()
-   console.log(typeof date.getSeconds());
-   console.log(JSON.stringify(date));
- }
- 
+
  
   </script>
 </body>
